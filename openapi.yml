@@ -1,0 +1,139 @@
+openapi: 3.0.0
+servers:
+  - description: Calculadora REST API
+    url: https://virtserver.swaggerhub.com/WINDSON_1/Calculadora/1.0.0
+info:
+  version: "1.0.0"
+  title: remotecalc-rest
+  description: Calculadora REST API
+paths:
+  /operations:
+    get:
+      tags:
+        - Operations
+      description: returns all registered operations
+      operationId: getOperations
+      responses:
+        '200':
+          description: All available operations
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+                  format: uri
+  /operation/soma/{value1}/{value2}:
+    post:
+      tags:
+        - Operations
+      operationId: soma
+      parameters:
+        - name: value1
+          in: path
+          required: true
+          schema:
+            type: number
+            format: double
+        - name: value2
+          in: path
+          required: true
+          schema:
+            type: number
+            format: double
+      responses:
+        '200':
+          description: response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Result'
+      x-swagger-router-controller: Operations
+  /operation/subtracao/{value1}/{value2}:
+    post:
+      tags:
+        - Operations
+      operationId: sub
+      parameters:
+        - name: value1
+          in: path
+          required: true
+          schema:
+            type: number
+            format: double
+        - name: value2
+          in: path
+          required: true
+          schema:
+            type: number
+            format: double
+      responses:
+        '200':
+          description: response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Result'
+      x-swagger-router-controller: Operations
+  /operation/divisao/{value1}/{value2}:
+    post:
+      tags:
+        - Operations
+      operationId: div
+      parameters:
+        - name: value1
+          in: path
+          required: true
+          schema:
+            type: number
+            format: double
+        - name: value2
+          in: path
+          required: true
+          schema:
+            type: number
+            format: double
+      responses:
+        '200':
+          description: response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Result'
+      x-swagger-router-controller: Operations
+  /operation/multiplicacao/{value1}/{value2}:
+    post:
+      tags:
+        - Operations
+      operationId: mult
+      parameters:
+        - name: value1
+          in: path
+          required: true
+          schema:
+            type: number
+            format: double
+        - name: value2
+          in: path
+          required: true
+          schema:
+            type: number
+            format: double
+      responses:
+        '200':
+          description: response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Result'
+      x-swagger-router-controller: Operations
+components:
+  schemas:
+    Result:
+      type: object
+      properties:
+        error:
+          type: boolean
+        value:
+          type: number
+          format: double
