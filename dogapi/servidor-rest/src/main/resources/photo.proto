@@ -1,0 +1,7 @@
+syntax = "proto3";
+package br.ufc.at04;
+option java_package = "proto";
+option java_outer_classname = "PhotoOuterClass";
+message Photo {
+    string data_base64 = 1;
+}
