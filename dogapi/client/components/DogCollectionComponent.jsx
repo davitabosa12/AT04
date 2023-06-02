@@ -11,17 +11,30 @@ const DogCollectionComponent = () => {
     const api = new MainControllerAPI();
     useEffect(() => {
         let updateCount = 0
+        var dogsVar = {};
         updateDogs()
             .then(dogsList => {
-                dogsList.forEach(dog => {
-                    updateCount += 1;
-                    console.log(`Getting image ${updateCount} time(s).`);
-                    api.getSingleBreedImg(dog.name, resp => {
-                        console.log(dogsImgs)
-                        setDogsImgs(prev => { return { ...prev, [dog.name]: resp.imageUrl } })
-                    })
+                const allPromise = dogsList.map((dog) => {
+                    return new Promise(resolve => {
+                        api.getSingleBreedImg(dog.name, resp => {
+                            updateCount += 1;
+                            console.log(`Getting image ${updateCount} time(s).`);
+                            // setDogsImgs(prev => { return { ...prev, [dog.name]: resp.imageUrl } })
+                            resolve({ [dog.name]: resp.imageUrl });
+                        })
+                    });
                 });
-            });
+                Promise.all(allPromise).then(dogObjList => {
+                    let joined = {};
+                    joined = dogObjList.reduce((prev, curr) => {
+                        return { ...prev, ...curr };
+                    }, {});
+                    console.log("joined" + JSON.stringify(joined));
+                    setDogsImgs(joined);
+                }).catch(err => {
+                    console.error(err);
+                })
+            }).catch(err => { console.error(err) });
     }, []);
     const updateDogs = () => {
         return new Promise((resolve, reject) => {
@@ -43,7 +56,15 @@ const DogCollectionComponent = () => {
         }}>
             {dogs.map((value) => {
                 return (
-                    <DogCardComponent breed={value} breedPhoto={dogsImgs[value.name]} key={value.id} imgHeight={64} imgWidth={64} onPress={() => updateDogs()}></DogCardComponent>
+                    <DogCardComponent
+                        breed={value}
+                        breedPhoto={dogsImgs[value.name]}
+                        key={value.id}
+                        imgHeight={64}
+                        imgWidth={64}
+                        onLikePressed={() => { console.log("liking dog" + value.name); updateDogs().catch(err => console.error(err)) }}
+                        onDislikePressed={() => { console.log("disliking dog" + value.name); updateDogs().catch(err => console.error(err)) }}>
+                    </DogCardComponent>
                 )
             })}
         </ScrollView>

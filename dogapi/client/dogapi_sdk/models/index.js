@@ -21,6 +21,15 @@ class MainControllerAPI {
             }
         }).then((responseData) => responseData.json()).then(resp).catch(error);
     }
+    dislikeBreed(breedName, resp, error) {
+        fetch(`${this.url}/breed/${breedName}/like`, {
+            method: "DELETE",
+            headers: {
+                Accept: "application/json",
+                'Content-Type': "application/json"
+            }
+        }).then((responseData) => responseData.json()).then(resp).catch(error);
+    }
     getSingleBreedImg(breedName, resp, error) {
         fetch(`${this.url}/breed/${breedName}/image`).then((responseData) => responseData.json()).then(resp).catch(error);
     }

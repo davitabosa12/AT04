@@ -5,7 +5,7 @@ import { MainControllerAPI } from '../dogapi_sdk/models';
 
 
 
-const DogCardComponent = ({ breed, breedPhoto, imgWidth = 32, imgHeight = 32, onPress }) => {
+const DogCardComponent = ({ breed, breedPhoto, imgWidth = 32, imgHeight = 32, onLikePressed, onDislikePressed }) => {
 
     let img = {
         uri: breedPhoto ?? "https://hips.hearstapps.com/hmg-prod/images/dog-puppy-on-garden-royalty-free-image-1586966191.jpg",
@@ -14,8 +14,15 @@ const DogCardComponent = ({ breed, breedPhoto, imgWidth = 32, imgHeight = 32, on
     }
     const onLikePress = () => {
         new MainControllerAPI().likeBreed(breed.name, () => {
-            if (onPress) {
-                onPress();
+            if (onLikePressed) {
+                onLikePressed();
+            }
+        }, err => console.err(err));
+    }
+    const onDislikePress = () => {
+        new MainControllerAPI().dislikeBreed(breed.name, () => {
+            if (onDislikePressed) {
+                onDislikePressed();
             }
         }, err => console.err(err));
     }
@@ -26,7 +33,7 @@ const DogCardComponent = ({ breed, breedPhoto, imgWidth = 32, imgHeight = 32, on
                 alignItems: 'center',
                 borderWidth: 3,
                 borderColor: 'black',
-                width: '80%',
+                width: '100%',
                 marginBottom: 8
             }}
         >
@@ -45,11 +52,13 @@ const DogCardComponent = ({ breed, breedPhoto, imgWidth = 32, imgHeight = 32, on
 
             </View>
             <View style={{
+                flexDirection: 'row',
                 justifyContent: 'flex-end',
                 alignItems: 'center',
-                width: '80%'
+                width: '30%'
             }}>
                 <LikeButton onPress={onLikePress} />
+                <LikeButton dislike={true} onPress={onDislikePress} />
             </View>
         </View>
     )

@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Image, StyleSheet, Text, Button, TouchableHighlight } from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
-const LikeButton = ({ onPress }) => {
+const LikeButton = ({ onPress, dislike = false }) => {
     return (
         <TouchableHighlight onPress={onPress}
             activeOpacity={0.6}
@@ -13,7 +13,7 @@ const LikeButton = ({ onPress }) => {
                 padding: 10,
                 alignSelf: 'flex-end'
             }}>
-                <FontAwesome name='thumbs-up' size={20} />
+                <FontAwesome name={dislike ? 'thumbs-down' : 'thumbs-up'} size={20} />
             </View>
         </TouchableHighlight>
     )

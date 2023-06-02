@@ -8,6 +8,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,33 +24,38 @@ import br.ufc.at04.service.DogAPIService;
 import br.ufc.at04.service.DogAPIServiceImpl;
 import ceo.dog.sdk.Breed;
 
-
 @RestController
 @RequestMapping("breed")
 public class MainController {
 	DogAPIService dogService = new DogAPIServiceImpl();
 	@Autowired
 	BreedRepository breedRepository;
-	
-	@GetMapping(name = "", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
+
+	@GetMapping(name = "", produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
 	public @ResponseBody ResponseEntity<List<BreedSummaryDTO>> getAllDog() {
 		return ResponseEntity.ok(breedRepository.findAll().stream().map(BreedSummaryDTO::new).toList());
 	}
-	
+
 	@PostMapping("{breed}/like")
-	public @ResponseBody ResponseEntity<Integer> likeDog(@PathVariable("breed") String breedName){
+	public @ResponseBody ResponseEntity<Integer> likeDog(@PathVariable("breed") String breedName) {
 		int changed = breedRepository.incrementVote(breedName);
 		return ResponseEntity.ok(changed);
 	}
-	
+
+	@DeleteMapping("{breed}/like")
+	public @ResponseBody ResponseEntity<Integer> dislikeDog(@PathVariable("breed") String breedName) {
+		int changed = breedRepository.decrementVote(breedName);
+		return ResponseEntity.ok(changed);
+	}
+
 	@GetMapping("{breed}")
-	public @ResponseBody ResponseEntity<BreedSummaryDTO> getDog(@PathVariable("breed") String breedName){
+	public @ResponseBody ResponseEntity<BreedSummaryDTO> getDog(@PathVariable("breed") String breedName) {
 		Optional<BreedEntity> breed = breedRepository.findByBreedName(breedName);
 		return ResponseEntity.ofNullable(breed.map(b -> new BreedSummaryDTO(b)).orElseGet(() -> null));
 	}
-	
+
 	@GetMapping("{breed}/image")
-	public @ResponseBody ResponseEntity<BreedImageDTO> getDogImage(@PathVariable("breed") String breedName){
+	public @ResponseBody ResponseEntity<BreedImageDTO> getDogImage(@PathVariable("breed") String breedName) {
 		Optional<BreedEntity> breed = breedRepository.findByBreedName(breedName);
 		List<String> urls = new ArrayList<>();
 		try {
