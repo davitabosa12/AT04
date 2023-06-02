@@ -8,6 +8,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -31,29 +32,34 @@ public class MainController {
 	@Autowired
 	BreedRepository breedRepository;
 
+	@CrossOrigin(origins = "*")
 	@GetMapping(name = "", produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
 	public @ResponseBody ResponseEntity<List<BreedSummaryDTO>> getAllDog() {
 		return ResponseEntity.ok(breedRepository.findAll().stream().map(BreedSummaryDTO::new).toList());
 	}
 
+	@CrossOrigin(origins = "*")
 	@PostMapping("{breed}/like")
 	public @ResponseBody ResponseEntity<Integer> likeDog(@PathVariable("breed") String breedName) {
 		int changed = breedRepository.incrementVote(breedName);
 		return ResponseEntity.ok(changed);
 	}
 
+	@CrossOrigin(origins = "*")
 	@DeleteMapping("{breed}/like")
 	public @ResponseBody ResponseEntity<Integer> dislikeDog(@PathVariable("breed") String breedName) {
 		int changed = breedRepository.decrementVote(breedName);
 		return ResponseEntity.ok(changed);
 	}
 
+	@CrossOrigin(origins = "*")
 	@GetMapping("{breed}")
 	public @ResponseBody ResponseEntity<BreedSummaryDTO> getDog(@PathVariable("breed") String breedName) {
 		Optional<BreedEntity> breed = breedRepository.findByBreedName(breedName);
 		return ResponseEntity.ofNullable(breed.map(b -> new BreedSummaryDTO(b)).orElseGet(() -> null));
 	}
 
+	@CrossOrigin(origins = "*")
 	@GetMapping("{breed}/image")
 	public @ResponseBody ResponseEntity<BreedImageDTO> getDogImage(@PathVariable("breed") String breedName) {
 		Optional<BreedEntity> breed = breedRepository.findByBreedName(breedName);

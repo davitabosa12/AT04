@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -37,61 +36,63 @@ import br.ufc.at04.repository.PersonRepository;
 public class PersonController {
 	@Autowired
 	PersonRepository personRepository;
-	
+
 	@Autowired
 	BreedRepository breedRepository;
-	
-	@PostMapping(produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
+
+	@PostMapping(produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
 	public ResponseEntity<PersonSummaryDTO> createPerson(@RequestBody PersonCreateDTO dto) {
 		Person p = new Person(dto);
 		p = personRepository.save(p);
 		return ResponseEntity.created(getLocation(p)).body(new PersonSummaryDTO(p));
 	}
-	
-	
-	@GetMapping(value = "{personName}", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
+
+	@GetMapping(value = "{personName}", produces = { MediaType.APPLICATION_JSON_VALUE,
+			MediaType.APPLICATION_XML_VALUE })
 	public ResponseEntity<PersonDetailDTO> getPerson(@PathVariable("personName") String userName) {
 		Person p = personRepository.findByPersonName(userName).orElseThrow(PersonNotFoundException::new);
-		
+
 		return ResponseEntity.ok(new PersonDetailDTO(p));
 	}
-	@GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
+
+	@GetMapping(produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
 	public ResponseEntity<List<PersonSummaryDTO>> getAllPersons() {
 		return ResponseEntity.ok(
-				personRepository.findAll().stream().map(person -> new PersonSummaryDTO(person)).toList()
-		);
+				personRepository.findAll().stream().map(person -> new PersonSummaryDTO(person)).toList());
 	}
-	@DeleteMapping(value ="{personName}")
+
+	@DeleteMapping(value = "{personName}")
 	public ResponseEntity<Void> removePerson(@PathVariable("personName") String personName) {
 		Person p = personRepository.findByPersonName(personName).orElseThrow(PersonNotFoundException::new);
 		personRepository.delete(p);
 		return ResponseEntity.noContent().build();
 	}
-	
+
 	@PutMapping(value = "{personName}/{breedName}")
-	public ResponseEntity<PersonDetailDTO> setFavoriteBreed(@PathVariable("personName") String personName, @PathVariable("breedName") String breedName) {
+	public ResponseEntity<PersonDetailDTO> setFavoriteBreed(@PathVariable("personName") String personName,
+			@PathVariable("breedName") String breedName) {
 		Person p = personRepository.findByPersonName(personName).orElseThrow(PersonNotFoundException::new);
 		BreedEntity breed = breedRepository.findByBreedName(breedName).orElseThrow(BreedNotFoundException::new);
 		p.setFavoriteBreed(breed);
 		p = personRepository.save(p);
 		return ResponseEntity.ok(new PersonDetailDTO(p));
 	}
-	
+
 	@ExceptionHandler(PersonNotFoundException.class)
 	public ResponseEntity<ExceptionDTO> handlePersonNotFound(PersonNotFoundException ex) {
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ExceptionDTO(ex));
 	}
-	
+
 	@ExceptionHandler(BreedNotFoundException.class)
 	public ResponseEntity<ExceptionDTO> handleBreedNotFound(BreedNotFoundException ex) {
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ExceptionDTO(ex));
 	}
-	
+
 	private URI getLocation(Person u) {
 		return ServletUriComponentsBuilder
-        .fromCurrentRequest()
-        .path("/{id}")
-        .buildAndExpand(u.getId())
-        .toUri();
+				.fromCurrentRequest()
+				.path("/{id}")
+				.buildAndExpand(u.getId())
+				.toUri();
 	}
 }
