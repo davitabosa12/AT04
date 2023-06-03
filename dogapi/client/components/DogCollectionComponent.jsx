@@ -18,8 +18,6 @@ const DogCollectionComponent = () => {
                     return new Promise(resolve => {
                         api.getSingleBreedImg(dog.name, resp => {
                             updateCount += 1;
-                            console.log(`Getting image ${updateCount} time(s).`);
-                            // setDogsImgs(prev => { return { ...prev, [dog.name]: resp.imageUrl } })
                             resolve({ [dog.name]: resp.imageUrl });
                         })
                     });
@@ -29,7 +27,6 @@ const DogCollectionComponent = () => {
                     joined = dogObjList.reduce((prev, curr) => {
                         return { ...prev, ...curr };
                     }, {});
-                    console.log("joined" + JSON.stringify(joined));
                     setDogsImgs(joined);
                 }).catch(err => {
                     console.error(err);
@@ -64,7 +61,8 @@ const DogCollectionComponent = () => {
                         imgHeight={64}
                         imgWidth={64}
                         onLikePressed={() => { console.log("liking dog" + value.name); updateDogs().catch(err => console.error(err)) }}
-                        onDislikePressed={() => { console.log("disliking dog" + value.name); updateDogs().catch(err => console.error(err)) }}>
+                        onDislikePressed={() => { console.log("disliking dog" + value.name); updateDogs().catch(err => console.error(err)) }}
+                        onDogDeleted={() => { console.log("dog deleted" + value.name); updateDogs().catch(err => console.error(err)) }}>
                     </DogCardComponent>
                 )
             })}
