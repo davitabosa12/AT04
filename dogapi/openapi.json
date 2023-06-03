@@ -1,320 +1,418 @@
 {
     "openapi": "3.0.1",
     "info": {
-        "title": "dogapi_sdk",
-        "version": "v0"
+      "title": "Dog Rater sdk",
+      "version": "v0"
     },
     "servers": [
-        {
-            "url": "http://localhost:8080",
-            "description": "Generated server url"
-        }
+      {
+        "url": "http://localhost:8080",
+        "description": "Generated server url"
+      }
     ],
     "paths": {
-        "/user/{personName}/{breedName}": {
-            "put": {
-                "tags": [
-                    "person-controller"
-                ],
-                "operationId": "setFavoriteBreed",
-                "parameters": [
-                    {
-                        "name": "personName",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "breedName",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": {
-                            "*/*": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/PersonDetailDTO"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/user": {
-            "get": {
-                "tags": [
-                    "person-controller"
-                ],
-                "operationId": "getAllPersons",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "array",
-                                    "items": {
-                                        "$ref": "#/components/schemas/PersonSummaryDTO"
-                                    }
-                                }
-                            },
-                            "application/xml": {
-                                "schema": {
-                                    "type": "array",
-                                    "items": {
-                                        "$ref": "#/components/schemas/PersonSummaryDTO"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
+      "/user/{personName}/{breedName}": {
+        "put": {
+          "tags": [
+            "person-controller"
+          ],
+          "operationId": "setFavoriteBreed",
+          "parameters": [
+            {
+              "name": "personName",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
             },
-            "post": {
-                "tags": [
-                    "person-controller"
-                ],
-                "operationId": "createPerson",
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/PersonCreateDTO"
-                            }
-                        }
-                    },
-                    "required": true
-                },
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/PersonSummaryDTO"
-                                }
-                            },
-                            "application/xml": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/PersonSummaryDTO"
-                                }
-                            }
-                        }
-                    }
-                }
+            {
+              "name": "breedName",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
             }
-        },
-        "/breed/{breed}/like": {
-            "post": {
-                "tags": [
-                    "main-controller"
-                ],
-                "operationId": "likeDog",
-                "parameters": [
-                    {
-                        "name": "breed",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": {
-                            "*/*": {
-                                "schema": {
-                                    "type": "integer",
-                                    "format": "int32"
-                                }
-                            }
-                        }
-                    }
+          ],
+          "responses": {
+            "200": {
+              "description": "OK",
+              "content": {
+                "*/*": {
+                  "schema": {
+                    "$ref": "#/components/schemas/PersonDetailDTO"
+                  }
                 }
+              }
             }
-        },
-        "/user/{personName}": {
-            "get": {
-                "tags": [
-                    "person-controller"
-                ],
-                "operationId": "getPerson",
-                "parameters": [
-                    {
-                        "name": "personName",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/PersonDetailDTO"
-                                }
-                            },
-                            "application/xml": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/PersonDetailDTO"
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "delete": {
-                "tags": [
-                    "person-controller"
-                ],
-                "operationId": "removePerson",
-                "parameters": [
-                    {
-                        "name": "personName",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK"
-                    }
-                }
-            }
-        },
-        "/breed": {
-            "get": {
-                "tags": [
-                    "main-controller"
-                ],
-                "operationId": "getAllDog",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "array",
-                                    "items": {
-                                        "$ref": "#/components/schemas/BreedSummaryDTO"
-                                    }
-                                }
-                            },
-                            "application/xml": {
-                                "schema": {
-                                    "type": "array",
-                                    "items": {
-                                        "$ref": "#/components/schemas/BreedSummaryDTO"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/breed/{breed}": {
-            "get": {
-                "tags": [
-                    "main-controller"
-                ],
-                "operationId": "getDog",
-                "parameters": [
-                    {
-                        "name": "breed",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": {
-                            "*/*": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/BreedSummaryDTO"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
+          }
         }
+      },
+      "/user": {
+        "get": {
+          "tags": [
+            "person-controller"
+          ],
+          "operationId": "getAllPersons",
+          "responses": {
+            "200": {
+              "description": "OK",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/PersonSummaryDTO"
+                    }
+                  }
+                },
+                "application/xml": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/PersonSummaryDTO"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "post": {
+          "tags": [
+            "person-controller"
+          ],
+          "operationId": "createPerson",
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PersonCreateDTO"
+                }
+              }
+            },
+            "required": true
+          },
+          "responses": {
+            "200": {
+              "description": "OK",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/PersonSummaryDTO"
+                  }
+                },
+                "application/xml": {
+                  "schema": {
+                    "$ref": "#/components/schemas/PersonSummaryDTO"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/breed/{breed}/like": {
+        "post": {
+          "tags": [
+            "dog-controller"
+          ],
+          "operationId": "likeDog",
+          "parameters": [
+            {
+              "name": "breed",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "OK",
+              "content": {
+                "*/*": {
+                  "schema": {
+                    "type": "integer",
+                    "format": "int32"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "delete": {
+          "tags": [
+            "dog-controller"
+          ],
+          "operationId": "dislikeDog",
+          "parameters": [
+            {
+              "name": "breed",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "OK",
+              "content": {
+                "*/*": {
+                  "schema": {
+                    "type": "integer",
+                    "format": "int32"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/user/{personName}": {
+        "get": {
+          "tags": [
+            "person-controller"
+          ],
+          "operationId": "getPerson",
+          "parameters": [
+            {
+              "name": "personName",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "OK",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/PersonDetailDTO"
+                  }
+                },
+                "application/xml": {
+                  "schema": {
+                    "$ref": "#/components/schemas/PersonDetailDTO"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "delete": {
+          "tags": [
+            "person-controller"
+          ],
+          "operationId": "removePerson",
+          "parameters": [
+            {
+              "name": "personName",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "OK"
+            }
+          }
+        }
+      },
+      "/breed": {
+        "get": {
+          "tags": [
+            "dog-controller"
+          ],
+          "operationId": "getAllDog",
+          "responses": {
+            "200": {
+              "description": "OK",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/BreedSummaryDTO"
+                    }
+                  }
+                },
+                "application/xml": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/BreedSummaryDTO"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/breed/{breed}": {
+        "get": {
+          "tags": [
+            "dog-controller"
+          ],
+          "operationId": "getDog",
+          "parameters": [
+            {
+              "name": "breed",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "OK",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/BreedSummaryDTO"
+                  }
+                },
+                "application/xml": {
+                  "schema": {
+                    "$ref": "#/components/schemas/BreedSummaryDTO"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "delete": {
+          "tags": [
+            "dog-controller"
+          ],
+          "operationId": "removeDog",
+          "parameters": [
+            {
+              "name": "breed",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "OK"
+            }
+          }
+        }
+      },
+      "/breed/{breed}/image": {
+        "get": {
+          "tags": [
+            "dog-controller"
+          ],
+          "operationId": "getDogImage",
+          "parameters": [
+            {
+              "name": "breed",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "OK",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/BreedImageDTO"
+                  }
+                },
+                "application/xml": {
+                  "schema": {
+                    "$ref": "#/components/schemas/BreedImageDTO"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     },
     "components": {
-        "schemas": {
-            "BreedSummaryDTO": {
-                "type": "object",
-                "properties": {
-                    "id": {
-                        "type": "string",
-                        "format": "uuid"
-                    },
-                    "name": {
-                        "type": "string"
-                    },
-                    "votes": {
-                        "type": "integer",
-                        "format": "int64"
-                    },
-                    "favorited": {
-                        "type": "integer",
-                        "format": "int32"
-                    }
-                }
+      "schemas": {
+        "BreedSummaryDTO": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "format": "uuid"
             },
-            "PersonDetailDTO": {
-                "type": "object",
-                "properties": {
-                    "username": {
-                        "type": "string"
-                    },
-                    "breed": {
-                        "$ref": "#/components/schemas/BreedSummaryDTO"
-                    }
-                }
+            "name": {
+              "type": "string"
             },
-            "PersonCreateDTO": {
-                "type": "object",
-                "properties": {
-                    "username": {
-                        "type": "string"
-                    }
-                }
+            "votes": {
+              "type": "integer",
+              "format": "int64"
             },
-            "PersonSummaryDTO": {
-                "type": "object",
-                "properties": {
-                    "id": {
-                        "type": "string",
-                        "format": "uuid"
-                    },
-                    "username": {
-                        "type": "string"
-                    }
-                }
+            "favorited": {
+              "type": "integer",
+              "format": "int32"
             }
+          }
+        },
+        "PersonDetailDTO": {
+          "type": "object",
+          "properties": {
+            "username": {
+              "type": "string"
+            },
+            "breed": {
+              "$ref": "#/components/schemas/BreedSummaryDTO"
+            }
+          }
+        },
+        "PersonCreateDTO": {
+          "type": "object",
+          "properties": {
+            "username": {
+              "type": "string"
+            }
+          }
+        },
+        "PersonSummaryDTO": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "username": {
+              "type": "string"
+            }
+          }
+        },
+        "BreedImageDTO": {
+          "type": "object",
+          "properties": {
+            "imageUrl": {
+              "type": "string"
+            }
+          }
         }
+      }
     }
-}
+  }
