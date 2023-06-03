@@ -6,8 +6,11 @@ import DogCollectionComponent from './components/DogCollectionComponent';
 export default function App() {
   return (
     <View style={styles.container}>
+      <Text style={{
+        fontSize: 30
+      }}>Dog Rater</Text>
       <DogCollectionComponent />
-      <StatusBar style="auto" />
+      {/* <StatusBar style="auto" /> */}
     </View>
   );
 }

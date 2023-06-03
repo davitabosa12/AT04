@@ -37,28 +37,38 @@ const DogCardComponent = ({ breed, breedPhoto, imgWidth = 32, imgHeight = 32, on
                 marginBottom: 8
             }}
         >
+            <View style={{
+                width: '50%',
+                flexDirection: 'column'
+            }}>
+                <View style={{
+                    width: '50%',
+                    alignItems: 'center',
+                    flexDirection: 'row'
+                }}>
+                    <Image source={img}></Image>
+                    <View>
+                        <Text style={{ marginLeft: 8 }}>{breed ? breed.name : "NO_BREED"}</Text>
+                        <Text style={{ marginLeft: 8 }}>Votes: {breed.votes ?? 0}</Text>
+                        <Text style={{ marginLeft: 8 }}>Favorites: {breed.favorited ?? 0}</Text>
+                    </View>
 
+                </View>
+            </View>
             <View style={{
                 width: '50%',
                 alignItems: 'center',
-                flexDirection: 'row'
-            }}>
-                <Image source={img}></Image>
-                <View>
-                    <Text style={{ marginLeft: 8 }}>{breed ? breed.name : "NO_BREED"}</Text>
-                    <Text style={{ marginLeft: 8 }}>Votes: {breed.votes ?? 0}</Text>
-                    <Text style={{ marginLeft: 8 }}>Favorites: {breed.favorited ?? 0}</Text>
-                </View>
-
-            </View>
-            <View style={{
-                flexDirection: 'row',
                 justifyContent: 'flex-end',
-                alignItems: 'center',
-                width: '30%'
+                flexDirection: 'column'
             }}>
-                <LikeButton onPress={onLikePress} />
-                <LikeButton dislike={true} onPress={onDislikePress} />
+                <View style={{
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    width: '30%'
+                }}>
+                    <LikeButton onPress={onLikePress} />
+                    <LikeButton dislike={true} onPress={onDislikePress} />
+                </View>
             </View>
         </View>
     )

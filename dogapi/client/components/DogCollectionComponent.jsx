@@ -50,8 +50,9 @@ const DogCollectionComponent = () => {
     }
     return (
         <ScrollView style={{
-            paddingTop: "30%",
+            // paddingTop: "30%",
             alignSelf: 'center',
+            marginTop: 32,
             marginLeft: 40
         }}>
             {dogs.map((value) => {
